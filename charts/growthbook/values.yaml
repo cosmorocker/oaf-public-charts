@@ -114,6 +114,22 @@ service:
 ingress:
   enabled: false
   name: growthbook-ingress
+  className: nginx
+  secretName: growthbook-tls
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    # Specify your app-origin with 'https://' prefix
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://my-app-origin.io"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization,Referer,sec-ch-ua,sec-ch-ua-mobile,sec-ch-ua-platform,User-Agent,X-Organization,Content-Type"
+  # Specify your app-origin, api-host without 'https://' prefix
+  appOriginName: my-app-origin.io
+  apiHostName: my-api-host.io
+
+publicIngress:
+  enabled: false
+  name: growthbook-public-ingress
+  className: nginx
   secretName: growthbook-tls
   annotations:
     kubernetes.io/ingress.class: nginx
@@ -123,8 +139,7 @@ ingress:
     nginx.ingress.kubernetes.io/cors-allow-origin: "https://my-app-origin.io"
     nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization,Referer,sec-ch-ua,sec-ch-ua-mobile,sec-ch-ua-platform,User-Agent,X-Organization,Content-Type"
   # Specify your app-origin, api-host without 'https://' prefix
-  appOriginName: my-app-origin.io
-  apiHostName: my-api-host.io
+  apiHostName: my-public-api-host.io
 
 autoscaling:
   enabled: false

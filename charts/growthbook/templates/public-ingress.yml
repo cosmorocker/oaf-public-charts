@@ -1,0 +1,25 @@
+{{- if .Values.publicIngress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.publicIngress.name }}
+  annotations:
+    {{- toYaml .Values.publicIngress.annotations | nindent 4 }}
+spec:
+  ingressClassName: {{ .Values.publicIngress.className }}
+  rules:
+    - host: {{ .Values.publicIngress.apiHostName }}
+      http:
+        paths:
+          - path: /api/features/
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "growthbook.fullname" . }}
+                port:
+                  number: {{ .Values.port.backendPort }}
+  tls:
+    - hosts:
+        - {{ .Values.publicIngress.apiHostName }}
+      secretName: {{ .Values.publicIngress.secretName }}
+{{- end -}}
