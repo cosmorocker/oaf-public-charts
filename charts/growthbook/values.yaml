@@ -155,6 +155,8 @@ autoscaling:
 mongodb:
   # -- Install MongoDB?
   enabled: true
+  image:
+    repository: bitnamilegacy/mongodb
   auth:
     rootUser: root
     rootPassword: password
