@@ -54,7 +54,7 @@ spec:
                 command:
                   - /bin/sh
                   - -c
-                  - apt-get update && apt-get install curl -y
+                  - apt-get update; apt-get install curl -y
           livenessProbe:
             exec:
               command:
